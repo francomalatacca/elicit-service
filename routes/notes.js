@@ -15,7 +15,8 @@ router.post('/', function(req, res, next) {
     var noteModel = new Note({
         note: req.body.note,
         group: req.body.group,
-        url: req.body.url
+        url: req.body.url,
+        selector: req.body.selector
     });
 
     noteModel.save(function(err, note) {

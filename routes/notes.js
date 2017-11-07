@@ -12,21 +12,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    var noteModel = new Note({
-        note: req.body.note,
-        group: req.body.group,
-        url: req.body.url,
-        selector: req.body.selector
-    });
+    if (req.auth === false) {
+        res.status(401).send({ "error": "user is not authenticated", "code": "401" })
+    } else {
+        var noteModel = new Note({
+            note: req.body.note,
+            group: req.body.group,
+            url: req.body.url,
+            selector: req.body.selector
+        });
 
-    noteModel.save(function(err, note) {
-        if (err) {
-            res.status(400).send({ "error": err });
-            return false;
-        }
+        noteModel.save(function(err, note) {
+            if (err) {
+                res.status(400).send({ "error": err });
+                return false;
+            }
 
-        res.status(201).send(note);
-    });
+            res.status(201).send(note);
+        });
+    }
 });
 
 router.put('/:id', function(req, res, next) {

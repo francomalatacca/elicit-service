@@ -1,12 +1,13 @@
 var mongoose = require('mongoose');
 var sha1 = require('sha1');
 
+
 var Schema = mongoose.Schema;
 
 var UserSchema = Schema({
     firstName: { type: String, required: true, max: 100 },
     lastName: { type: String, required: true, max: 100 },
-    email: { type: String, required: true, max: 32 },
+    email: { type: String, required: true, unique: true, max: 32 },
     password: { type: String, required: true, max: 32 },
     groupUrl: { type: Array },
     _activationUrl: { type: String, max: 100 },
@@ -22,6 +23,7 @@ UserSchema
     });
 
 
+
 UserSchema.pre('save', function(next) {
     var base = "aAbBcCdDeEfFgGhHiIlLmMnNoOpPqQrRsSTtUuVvXxWwZz0987654321"
     var cypher = [];
@@ -30,7 +32,7 @@ UserSchema.pre('save', function(next) {
         cypher.push(base[r]);
     }
     this._activationUrl = sha1(cypher.join(''));
-    this.password = sha1(this.password);
+    this.password = sha1(this.password + process.env.SALT || "s3cr3tSalt-01");
     this._lastUpdate = Date.now();
     next();
 });

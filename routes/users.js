@@ -20,5 +20,17 @@ router.post('/', function(req, res, next) {
         res.status(201).send(user);
     });
 });
+router.post('/login', function(req, res, next) {
+    if (req.auth === false) {
+
+        res.writeHead(401, { "WWW-Authenticate": "Basic realm=\"elicit realm\"" });
+    } else {
+        res.writeHead(200, {
+            'Content-Type': 'text/plain',
+            'Set-Cookie': "Authorization=" + req.header('authorization')
+        })
+        res.end();
+    }
+});
 
 module.exports = router;

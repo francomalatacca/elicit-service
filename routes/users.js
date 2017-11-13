@@ -20,6 +20,7 @@ router.post('/', function(req, res, next) {
         res.status(201).send(user);
     });
 });
+
 router.post('/login', function(req, res, next) {
     if (req.auth === false) {
 

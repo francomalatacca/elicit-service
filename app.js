@@ -12,6 +12,9 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var notes = require('./routes/notes');
 
+
+var cors = require('cors')
+
 var app = express();
 
 // view engine setup
@@ -88,8 +91,8 @@ var auth = function(req, res, next) {
 
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/notes', auth, notes);
+app.use('/users', auth, cors(), users);
+app.use('/notes', auth, cors(), notes);
 
 var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/elicitdb';
 mongoose.connect(mongoDB, {

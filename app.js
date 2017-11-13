@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var auth = require('cavecanem');
 var sha1 = require('sha1');
 
 var index = require('./routes/index');

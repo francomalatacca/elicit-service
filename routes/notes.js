@@ -4,7 +4,19 @@ var Note = require('../models/note');
 
 /* GET notes listing. */
 router.get('/', function(req, res, next) {
-    Note.find({}).exec(function(err, notes) {
+    var project = req.param.project;
+    var url = req.param.url;
+    var _s = {}
+
+    if (project || project === "public") {
+        s["project"] = project || "public";
+    }
+
+    if (url) {
+        s["url"] = url;
+    }
+
+    Note.find(_s).exec(function(err, notes) {
         if (err) { return next(err); }
         //Successful, so render
         res.status(200).send(notes);

@@ -79,6 +79,11 @@ var auth = function(req, res, next) {
             console.log(err, u);
         }).then(function(obj) {
             req.auth = obj === null ? false : true;
+            if (req.auth) {
+                req.authorization = {};
+                req.authorization.validation = true;
+                req.authorization.email = obj.email;
+            }
             next();
         });
 

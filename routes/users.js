@@ -23,14 +23,17 @@ router.post('/', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
     if (req.auth === false) {
-
         res.writeHead(401, { "WWW-Authenticate": "Basic realm=\"elicit realm\"" });
-    } else {
-        res.writeHead(200, {
-            'Content-Type': 'text/plain',
-            'Set-Cookie': "Authorization=" + req.header('authorization')
-        })
         res.end();
+    } else {
+        console.log(req.authorization.email, "tempted access");
+        User.find({ email: req.authorization.email }, { email: true, alias: true, project: true }).exec(function(err, user) {
+            if (err) { return next(err); }
+            if (user) {
+                res.status(200).send(user);
+            }
+            res.status(401).send();
+        })
     }
 });
 

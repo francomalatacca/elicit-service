@@ -27,7 +27,7 @@ router.post('/login', function(req, res, next) {
         res.end();
     } else {
         console.log(req.authorization.email, "tempted access");
-        User.find({ email: req.authorization.email }, { email: true, alias: true, project: true }).exec(function(err, user) {
+        User.findOne({ email: req.authorization.email }, { email: true, alias: true, project: true }).exec(function(err, user) {
             if (err) { return next(err); }
             if (user) {
                 res.status(200).send(user);

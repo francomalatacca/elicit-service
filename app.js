@@ -83,6 +83,7 @@ var auth = function(req, res, next) {
                 req.authorization = {};
                 req.authorization.validation = true;
                 req.authorization.email = obj.email;
+                req.authorization.alias = obj.alias;
             }
             next();
         });

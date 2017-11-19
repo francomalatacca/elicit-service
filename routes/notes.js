@@ -31,7 +31,8 @@ router.post('/', function(req, res, next) {
             note: req.body.note,
             group: req.body.group,
             url: req.body.url,
-            selector: req.body.selector
+            selector: req.body.selector,
+            user: req.authorization.alias
         });
 
         noteModel.save(function(err, note) {

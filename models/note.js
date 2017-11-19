@@ -7,6 +7,7 @@ var NoteSchema = Schema({
     group: { type: String, required: true, max: 100 },
     selector: { type: String, required: true, max: 255 },
     url: { type: String, required: true, max: 100 },
+    user: { type: String, required: true, max: 100 },
     _create: { type: Date, default: Date.now },
     _lastUpdate: { type: Date }
 });

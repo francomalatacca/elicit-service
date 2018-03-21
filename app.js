@@ -9,13 +9,13 @@ var sha1 = require('sha1');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var notes = require('./routes/notes');
+var comments = require('./routes/comments');
+var images = require('./routes/images');
 
 
 var cors = require('cors')
 
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -23,7 +23,7 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '500kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -97,7 +97,9 @@ var auth = function(req, res, next) {
 
 app.use('/', index);
 app.use('/users', auth, cors(), users);
-app.use('/notes', auth, cors(), notes);
+app.use('/comments', auth, cors(), comments);
+
+app.use('/images', auth, cors(), images);
 
 var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/elicitdb';
 mongoose.connect(mongoDB, {
@@ -112,8 +114,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
 
 // error handler
 app.use(function(err, req, res, next) {

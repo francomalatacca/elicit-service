@@ -10,6 +10,7 @@ var sha1 = require('sha1');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var comments = require('./routes/comments');
+var status = require('./routes/status');
 var images = require('./routes/images');
 
 
@@ -98,6 +99,7 @@ var auth = function(req, res, next) {
 app.use('/', index);
 app.use('/users', auth, cors(), users);
 app.use('/comments', auth, cors(), comments);
+app.use('/status', auth, cors(), status);
 
 app.use('/images', auth, cors(), images);
 
